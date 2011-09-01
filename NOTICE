@@ -1,0 +1,36 @@
+Post Memory Corruption Memory Analysis
+Copyright 2011 Toucan System SARL.
+
+The official home page of PMCMA is http://pmcma.org/
+
+This product includes software developed at
+Toucan System SARL (http://www.toucan-system.com/).
+
+This tool is linked against the beaengine disassembly
+engine, which is licensed as LGPL. A copy of its source
+code is available under the ./beaengine/ directory.
+
+The original PMCMA tool was first publicly demonstrated at
+the Blackhat USA conference in 2011.
+
+If you would like to contribute patches (you are most welcome to !)
+for inclusion into PMCMA, you should send them to
+http://groups.google.com/group/pmcma 
+By doing so, you implicitely give all of your Copyrights over this
+code to Toucan System SARL. Be sure to create your patch against
+the latest version of the source code available at:
+https://github.com/toucan-system/pmcma
+and please create your patch using a format similar to the one
+produced by the following command:
+diff -rupN pmcma_orig/ pmcma_new/ > pmcma.patch
+
+By using this tool, you agree that you are the only one responsable
+for your actions. In particular, Toucan System SARL can in no way
+be sued because you wrote an exploit for a given vulnerability,
+used it in the wild, got caught, and are now looking for an easy
+escape.
+
+WE DO NOT BELIEVE IN INFANTILIZING PEOPLE : USE RESPONSIBLY
+
+
+

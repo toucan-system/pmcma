@@ -1,0 +1,63 @@
+.TH PMCMA "1" "September 2011" "PMCMA Version: 1.0" "User Commands"
+.SH NAME
+PMCMA \- manual page for PMCMA Version: 1.0
+.SH SYNOPSIS
+.B pmcma
+[\fIOPTIONS\fR] [\f--pid=<pid>|-C <cmd> <args...>\fR]
+
+.SH DESCRIPTION
+
+
+\fB\-\-pid=\fR<pid> (\fB\-p\fR):               pid to trace (attach to a running process)
+
+\fB\-C\fR <cmd arg1 arg2...>:          Run the given command instead of following a pid
+
+
+.B OPTIONS:
+
+\fB\-\-help\fR (\fB\-h\fR):                    Display help
+
+\fB\-\-version\fR (\fB\-V\fR):                 Display version
+
+\fB\-\-verbose\fR (\fB\-v\fR):                 Be verbose
+
+\fB\-\-debug\fR   (\fB\-d\fR):                 Debug mode
+
+\fB\-\-dump\fR    (\fB\-D\fR):                 Dump sections to disk
+
+\fB\-\-segfault\fR (\fB\-s\fR):                Wait for a segmentation fault before starting analysis
+
+\fB\-\-leak\fR (\fB\-l\fR):                    Search memory leaks to defeat ASLR using a write operation
+
+\fB\-\-leak\-showsyscalls\fR (\fB\-X\fR):       Show syscalls performed when looking for mem leaks
+
+\fB\-\-fptr\fR (\fB\-f\fR):                    Only search for function ptrs when analysing invalid writes (faster)
+
+\fB\-\-unaligned\fR (\fB\-u\fR):               Search for instructions using unaligned reads/writes
+
+\fB\-\-interactive\fR (\fB\-i\fR):             Prompt user (default is: auto mode)
+
+\fB\-\-canari\fR (\fB\-c\fR):                  Use given value when trying to overwrite function ptrs
+
+\fB\-\-timeout\fR (\fB\-t\fR):                 Timeout when running forked() children. Default: 2s
+
+\fB\-\-relaxed\fR (\fB\-r\fR):                 Use relaxed mode when searching for function ptrs
+
+\fB\-\-assume\-X\fR (\fB\-x\fR):                Assume that everything mapped is executable
+
+\fB\-\-num\-samples\fR (\fB\-n\fR):             Take this number of samples when checking ASLR
+
+\fB\-\-single\-ptr=\fR<0xaddress> (\fB\-S\fR):  Analyse only this address
+
+.SH BUGS
+
+Please report bugs in Pmcma thanks to the http://www.pmcma.org website.
+
+.SH COLOPHON
+
+Visit http://www.pmcma.org for latest version and more information.
+
+Copyrights 2011 Toucan System SARL.
+
+
+

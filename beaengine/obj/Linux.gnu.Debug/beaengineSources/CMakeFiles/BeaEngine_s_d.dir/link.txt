@@ -1,0 +1,2 @@
+/usr/bin/ar cr ../../../lib/Linux.gnu.Debug/libBeaEngine_s_d.a  CMakeFiles/BeaEngine_s_d.dir/BeaEngine.c.o
+/usr/bin/ranlib ../../../lib/Linux.gnu.Debug/libBeaEngine_s_d.a

@@ -1,0 +1,2 @@
+Starting with Ubuntu 10.10, non root users can not debug processes they own unless they are children of the debugging process.
+To use pmcma anyways, run the script located in ./tools/fix.ptrace.ubuntu.sh as root before runing pmcma.

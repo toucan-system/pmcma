@@ -1,0 +1,14 @@
+If you would like to contribute to pmcma, please first read the file called NOTICE.
+
+Here is non exhaustive list of things to implement/fix in pmcma, in addition to
+any new/cool hacking technique you may want to add.
+
+- Fix x86_64 bugs in ASLR detection.
+- Merge x86_64 shellcodes to handled kernels compiled without 32b compatibility.
+- Add a human readable conclusion at the end of the audit.
+- Merge code to handle exhaustive/selective invalid reads.
+- Merge code to implement syscalls recording and automated ASLR leakage through
+  invalid memory writes (doesn't work on x86_64 yet, descoped for now).
+- Add code to handle stack overflows exploitation.
+- Port to OSX, *BSD, ARM architectures
+

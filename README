@@ -1,0 +1,157 @@
+
+
+               Post Memory Corruption Memory Analyzer
+
+
+
+
+  What is it?
+  -----------
+
+  Pmcma is a tool aimed at determining if a given software bug
+  is an exploitable vulnerability by automatically writting an
+  exploit for it.
+
+  Like every powerful tool made by human beings, it is double
+  edged : it can be used for good or evil.
+
+  Is this tool for me ?
+  ---------------------
+
+  Pmcma has a wide range of applications, depending on your use
+  of computer software.
+
+  As an advanced user, you may experience software bugs in the form
+  of crashes you are able to repeat and would like to report those
+  bugs to software maintainers. Very often, sadly, they will not
+  take your bug request very seriously untill you prove them it may
+  have serious security implications. In this case, attaching a
+  pmcma output to your bug report may convince them to fix the bug
+  (or not, if pmcma rules it out as non exploitable ;)
+
+  As a system administrator, you may find Proof of Concepts or even
+  proper exploits disclosed in public places such as security mailing
+  lists or security websites and wonder if your own systems would be
+  affected by simple modifications of those public codes (that usually
+  never work "as is" anywhere but on the computer of their author ;)
+
+  As a software developper or maintainer, you may experience or be
+  reported segmentation faults in your software. Pmcma helps you
+  determine what is happening at assembly level and determine which
+  bugs are in fact vulnerabilities and should be fixed first.
+
+  As a computer security enthousiat, you may want to learn more about
+  software exploitation and experiment. Way to go !
+
+  As a security expert or software hacker well vered in exploit writting,
+  you may want to automate reverse engineering as much as possible to
+  spend your time on what is specific to the particular exploit you are 
+  writting.
+
+  As a script kiddie, you may have found a piece of code you don't
+  understand on the internet, but are nonetheless decided to go to jail.
+
+
+
+  In all those cases, and surely many others, Pmcma was probably made
+  for you.
+
+  Supported platforms
+  -------------------
+
+  Currently, pmcma is known to work on x86 and x86_64 intel cpus.
+  Pmcma currently works on GNU/Linux as well as Android.
+  It has been tested on several Ubuntu, Debian, Fedora and Gentoo
+  distributions in both 32b and 64b.
+
+  Usage
+  -----
+
+  Try the command:
+    man ./pmcma.1
+
+  The Latest Version
+  ------------------
+
+  The latest version of Pmcma can be found at:
+  https://github.com/toucan-system/pmcma
+
+  The official website of Pmcma is:
+  http://www.pmcma.org
+
+  Installation
+  ------------
+
+  Please see the file called COMPILING.
+
+  Licensing
+  ---------
+
+  Please see the file called LICENSE.
+
+  Contributors
+  -------------
+
+  Please see the file called AUTHORS.
+
+  Contacts
+  --------
+
+  If you would like to participate to the developpment
+  of Pmcma and receive alerts of latest releases, you
+  can subscribe to the Pmcma mailing list at:
+  http://groups.google.com/group/pmcma
+  and alternatively visit the website at:
+  http://www.pmcma.org
+
+  For matters related to Toucan System only, please use:
+  contact@toucan-system.com
+
+  For urgent security matters, you can contact Jonathan Brossard
+  directly at:
+  endrazine@gmail.com
+  using the pgp key below:
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+mQGiBEoMmvURBACt+B7c1MCV90PjaEE7b6m+UB51tATi8U7Jj2H2gymT6xF/3TRO
+ymYkXfMeU/zlSkmxJyyhT/Z86NFL1xIxngRL+zc2enFv+mHvABj3D8B/lMHA1WjA
+agen26pqhWSlow7T2sUPlDPUsGzvJYqnUuuVPH+6FMWF5LyP5dsfYD+fJwCgxxx4
+6iGndgLscJ0xPaI2CPvXSt8D/2bRaegV9if+VlQlIN1esAI2KLdClihECXtkqNjh
+lSkGBqEJOljivwPX3tNad+szgiZoUeY0W3gM06e7aaxiJ+YhhXuSO8BcgJ03h5rA
+D9Fyu8vBap/xUQg923CGzPJMY4PCxQlkUlIui8SWxbv8tUN4MbMT5MMx8EWZv1NL
+6i9SA/4mQ/l9ZO14Kukqcg6rRm/KYH4IDlNg5t77+FaTzaq1miDJChOrfEdpOgrS
+vDqyS1odr/IKibaknXUh65LhcppSI9byk5eS+cfwHLEQgqIlX3o3Uzaqa3HfhjYW
+2YCovavnazNJG7Pe9uIPcBacnZtusDgrZrzUA64Vmh05wj2Z8bQnSm9uYXRoYW4g
+QnJvc3NhcmQgPGVuZHJhemluZUBnbWFpbC5jb20+iGAEExECACAFAkoMmvUCGwMG
+CwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRAr9gCbs9jJudOpAJ9ZpHKyzAxi/LYj
+thIeTMl2vXVt4QCgphukZzqKiS0pkbQxyuDPQhbNCAm5Ag0ESgya9RAIAIgiM6Cf
+gSJ09jHN/6ozy5Hdnz9iRsk00+wY5bhoXWIkrITqck2wgSpip1xMlXcj5zimXoos
+KTpb3W/oXalqtEmFowgBCZsW+HMhuWpjges8EvjCqAybl+RWpsirhdcAX1Xy3nj9
+MVUEcAvIYU4u9w4ROW8ibAMxtnjJ7lgvreBuiYvPSBWDhi0j+m+5Fj4HlW9qKxLe
+Hzee+tBYaWZ4ihnCE2dqkJCebq89ryLorDxSmFfurmZNPz/AjIw0H1+R1etiyYkR
+X5d7EgsFZCvof96so4HySq1nLsKFACJAI0oGJ5fV1T8U2w2rAN1Cqa9+WKEqFrZo
+JALQSPAFQ38SQksAAwUH/RGFyR8nGS/yCk5YeOTdwJtxONVbnN4PEzGCdl6ejGLV
+bm2CDTseS604qL9E/u82r7okgG8zPGyfD0LIXTOYJQqvchlNatAARlc5eDXXK0da
+F7/7VrS79AcOs9Syj0UQ0598Z3fP7bhmpOxHXX5Z81s/x34Ls2YRUvd0GgEBK1u7
+pFx130O+6T8V+ezbCHOmv9W0UH5lBgnw5PQdTHzd4QUw169pO0GRwVARuEzyKIAe
+c+cycdELK6R1/BsUSE/5qs8ERACZop/6kO1wL2VgVh2Rqj5FN9aQiihvGS9PRKiR
+Cs+AQdExCcWSMs+V9ec+VE7oM69VoUBU3gsYBSCazIyISQQYEQIACQUCSgya9QIb
+DAAKCRAr9gCbs9jJuUBRAJ9jvMjEdEf7uEm2fSAJDMaUOX9EwwCePGePxjijbuun
+biHUzgJDjrUNQQM=
+=b1PB
+-----END PGP PUBLIC KEY BLOCK-----
+
+  Acknowledgments
+  ----------------
+
+  We wish to thank the following people for their contributions to Pmcma
+  being it in the form of proper code, whitepaper review, or ideas:
+
+  spender, Silvio Cesare, andrewg, bliss, BSDaemon, Ivanlef0u, msuiche,
+  redsand, nergal, pipacs, mercy, Mark Dowd, twiz, caddis, #hes, #social
+  #busticati, #ruxcon
+
+
+

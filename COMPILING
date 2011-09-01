@@ -1,0 +1,16 @@
+          [ Compiling pmcma (32 and 64b) ]
+
+--[ Prerequisites:
+You need the following applications in your path:
+
+cmake
+gcc
+flex
+
+--[ Compiling:
+
+At the root directory of pmcma, simply enter:
+
+make
+make install
+

@@ -1,0 +1,9 @@
+Rafal Wojtczuk (nergal) noticed two errors in section 8 : Stack desynchronization.
+
+First of all, we meant returing "to a carefully chosen function epilogue", and not "prologue", otherwise the whole idea would not be different from a standard ret2libc.
+
+Secondly, he correctly noticed that this specific idea is not entirely new : he had documented it himself in his highly respected article on "The advanced return-into-lib(c) exploits" in Phrack Magazine:
+http://www.phrack.org/issues.html?issue=58&id=4 chapter 7.2.
+
+Thanks to him for his comments and feedback :)
+
