@@ -368,11 +368,11 @@ int validate_ptrs(int pid){
 #ifdef __x86_64__
 						zprintf("\n <*> Dereferenced function ptr at 0x%016llx (full control flow hijack)\n",tmp4->addr);
 						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #else
 						zprintf("\n <*> Dereferenced function ptr at 0x%08x (full control flow hijack)\n",tmp4->addr);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #endif
 
 						tmp4->hijack=1;
@@ -382,11 +382,11 @@ int validate_ptrs(int pid){
 #ifdef __x86_64__
 						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%016llx\n     (ret value=0x%016llx is unmapped)\n",tmp4->addr,saved_last_eip);
 						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #else
 						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%08x\n     (ret value=0x%08x is unmapped)\n",tmp4->addr,saved_last_eip);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #endif
 						tmp4->indirect=1;
 						counter_ind++;
@@ -430,7 +430,7 @@ int validate_ptrs(int pid){
 #else
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 not_good:
 						break;
 				}
@@ -502,7 +502,7 @@ int validate_all_w(int pid,int aslr){
 						zprintf("\n <*> Dereferenced function ptr at 0x%08x (full control flow hijack)\n",tmp4->addr);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 						tmp4->hijack=1;
 						counter++;
 						break;
@@ -514,7 +514,7 @@ int validate_all_w(int pid,int aslr){
 						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%08x\n     (ret value=0x%08x is unmapped)\n",tmp4->addr,saved_last_eip);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 						tmp4->indirect=1;
 						counter_ind++;
 						break;
@@ -557,7 +557,7 @@ int validate_all_w(int pid,int aslr){
 #else
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 not_good:
 						break;
 				}
@@ -600,7 +600,7 @@ int validate_struct_ptrs(int pid){
 	int new_mapping;
 	char line[400];
 
-	zprintf("\n--[ Searching pointers to datastructures with function pointers\n");
+	zprintf("\n--[ Searching pointers to data structures with function pointers\n");
 
 	zprintf("\n ** Pointers to +W sections: %d\n",w_to_w_counter);
 	zprintf("\n ** Pointers to +R sections: %d\n",w_to_r_counter);
@@ -652,7 +652,7 @@ int validate_struct_ptrs(int pid){
 						// display disasm 
 						zprintf("     %s\n",line);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
-						       (tmp4->addr % 4) ? "(unalined)" : "",ptr_to_aslr(tmp4->addr),num_samples);
+						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 not_good2:
 					break;
 			}
@@ -1268,8 +1268,8 @@ int crash_analysis(char *asminst){
 
 	if(read_op||write_op||deref1||deref2){
 	zprintf(" ** The impact of this bug is potentially to %s ", write_op ? "modify the control flow\n"
-		" of the application to execute arbitrary code.\n" :  "perform a controled read\n"
-		" operation, leading either to direct information leakage\n (of an interresting value, or"
+		" of the application to execute arbitrary code.\n" :  "perform a controlled read\n"
+		" operation, leading either to direct information leakage\n (of an interesting value, or"
 		" more generally of the mapping of the binary),\n or indirectly to an other memory corruption bug.\n");
 	}else if(stack_smash){
 		zprintf(" ** The impact of this bug is potentially to execute arbitrary code\n");
