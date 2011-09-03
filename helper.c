@@ -40,7 +40,7 @@
 #include "beaengine/BeaEngine.h"
 #define BEA_ENGINE_STATIC	/* specify the usage of a static version of BeaEngine */
 #define BEA_USE_STDCALL		/* specify the usage of a stdcall version of BeaEngine */
-#define MAX_FAIL_TIMES 1000	/* max number of times to attemp a mk_fork() before desisting */
+#define MAX_FAIL_TIMES 1000	/* max number of times to attempt a mk_fork() before desisting */
 
 #define MAX_DATA_SIZE 100
 
@@ -599,7 +599,7 @@ int display_possible_fptrs(){
 #else
 				printf("0x%08x --> 0x%08x %s\n", tmp4->addr, tmp4->dst,
 #endif
-				       (tmp4->addr % 4) ? "(unalined)" : "");
+				       (tmp4->addr % 4) ? "(unaligned)" : "");
 			counter++;
 		}
 		tmp4 = (struct w_to_x_ptr *)tmp4->next;
@@ -621,7 +621,7 @@ int find_trunc_targets(int destperm,addr_size inputptr, int aligned){
 		(aligned) ? "4 byte aligned " : "" ,inputptr);
 	tmp4 = w_to_x_first;
 	while (tmp4 != 0) {
-		if ( ((tmp4->addr % 4)||(!aligned)) && (tmp4->hijack == 1)) {	// source ptr valid and unalined ?
+		if ( ((tmp4->addr % 4)||(!aligned)) && (tmp4->hijack == 1)) {	// source ptr valid and unaligned ?
 			if(tmp4->addr % 4)
 				tmp4->unaligned=1;
 			counter+=checktrunc(tmp4,destperm,inputptr,0,aligned);	// lower truncation
@@ -676,7 +676,7 @@ int checktrunc(struct w_to_x_ptr *tmp, int destperm,addr_size inputptr,int direc
 	int v;				// compute ptr destination after truncation
 	int p;				// permission of resulting ptr
 	int d;
-	int counter=0;			// how many successfull truncations ?
+	int counter=0;			// how many successful truncations ?
 
 	tmax = (aligned) ? 4 - (tmp->addr % 4) : 3;
 	for(d=tmax;d>0;d--){
@@ -868,7 +868,7 @@ int parse_section(int fd, addr_size addr,addr_size end, int size, int perms,char
 		exit(-1);
 	}
 
-	// parse section looking for pointers to sections with interresting perms
+	// parse section looking for pointers to sections with interesting perms
 	for (count = 0; count < num; count += 1) {
 
 	newptr=(buf[count]&0xff)+(buf[count+1]&0xff)*0x100+(buf[count+2]&0xff)*0x10000+(buf[count+3]&0xff)*0x1000000;
@@ -1444,7 +1444,7 @@ int mk_fork_wrapper2(pid_t pid){
 		}
 		usleep(1000);
 	}
-	fprintf(stderr," [!!] %u failed attemps to mk_fork()"
+	fprintf(stderr," [!!] %u failed attempt to mk_fork()"
 		"in a raw :(, exiting..\n",MAX_FAIL_TIMES);
 	exit(-1);
 }

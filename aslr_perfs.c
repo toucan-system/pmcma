@@ -167,7 +167,7 @@ int maxrep(unsigned int i){
 	}
 
 	// find matching section in liked list
-	tmpsection = zfirst;	// carefull, not zfirst_aslr
+	tmpsection = zfirst;	// careful, not zfirst_aslr
 	while (tmpsection->next != 0x00) {
 		if((addr_size)tmpsection->num==i)
 			break;

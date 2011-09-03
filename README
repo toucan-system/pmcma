@@ -9,7 +9,7 @@
   -----------
 
   Pmcma is a tool aimed at determining if a given software bug
-  is an exploitable vulnerability by automatically writting an
+  is an exploitable vulnerability by automatically writing an
   exploit for it.
 
   Like every powerful tool made by human beings, it is double
@@ -24,7 +24,7 @@
   As an advanced user, you may experience software bugs in the form
   of crashes you are able to repeat and would like to report those
   bugs to software maintainers. Very often, sadly, they will not
-  take your bug request very seriously untill you prove them it may
+  take your bug request very seriously until you prove them it may
   have serious security implications. In this case, attaching a
   pmcma output to your bug report may convince them to fix the bug
   (or not, if pmcma rules it out as non exploitable ;)
@@ -35,18 +35,18 @@
   affected by simple modifications of those public codes (that usually
   never work "as is" anywhere but on the computer of their author ;)
 
-  As a software developper or maintainer, you may experience or be
+  As a software developer or maintainer, you may experience or be
   reported segmentation faults in your software. Pmcma helps you
   determine what is happening at assembly level and determine which
   bugs are in fact vulnerabilities and should be fixed first.
 
-  As a computer security enthousiat, you may want to learn more about
+  As a computer security enthusiast, you may want to learn more about
   software exploitation and experiment. Way to go !
 
-  As a security expert or software hacker well vered in exploit writting,
+  As a security expert or software hacker well versed in exploit writing,
   you may want to automate reverse engineering as much as possible to
   spend your time on what is specific to the particular exploit you are 
-  writting.
+  writing.
 
   As a script kiddie, you may have found a piece of code you don't
   understand on the internet, but are nonetheless decided to go to jail.
@@ -62,7 +62,7 @@
   Currently, pmcma is known to work on x86 and x86_64 intel cpus.
   Pmcma currently works on GNU/Linux as well as Android.
   It has been tested on several Ubuntu, Debian, Fedora and Gentoo
-  distributions in both 32b and 64b.
+  distributions in both 32bit and 64bit.
 
   Usage
   -----
@@ -97,7 +97,7 @@
   Contacts
   --------
 
-  If you would like to participate to the developpment
+  If you would like to participate to the development
   of Pmcma and receive alerts of latest releases, you
   can subscribe to the Pmcma mailing list at:
   http://groups.google.com/group/pmcma
