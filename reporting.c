@@ -164,11 +164,11 @@ int reporting(int pid){
 int print_cmd_line(int pid){
 
 	char mypath[100];
-	char data[1024];
+	char data[1025];
 	unsigned int n,i;
 	int fd;
 
-	memset(data,0x00,1024);
+	memset(data,0x00,1025);
 	memset(mypath,0x00,100);
 
 	sprintf(mypath,"/proc/%d/cmdline",pid);
