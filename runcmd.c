@@ -35,7 +35,7 @@ extern int disasm_size;	// size of last disassembled instruction
 */
 int fix_args(int argc,char  **argv){
 	int i,parsed=0;
-	for (i = 2; i < argc; i++) {
+	for (i = 1; i < argc; i++) {
 	if(debug_flag)
 		printf("argv[%d]=%s\n",i,argv[i]);
 
