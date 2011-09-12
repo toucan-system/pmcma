@@ -62,7 +62,7 @@ double crc64(char *seq, char *res);
 int nrec=0;
 
 
-char backup_buff[200];	// backup bytes when patching with stub shellcodes
+char backup_buff[250];	// backup bytes when patching with stub shellcodes
 
 // first pointers for linked lists
 struct w_to_x_ptr *w_to_x_first = 0;	// pointers to executable sections
@@ -249,7 +249,7 @@ int read_maps(int pid)
 	FILE *fmaps;
 	char line[1000];
 #ifdef __x86_64__
-	unsigned long long int initz, endz, size;
+	unsigned long int initz, endz, size;
 #else
 	unsigned long int initz, endz, size;
 #endif
@@ -346,7 +346,7 @@ int read_maps(int pid)
 	}
 
 	nsections=counter-1;
-	return 0;
+	return nsections;
 }
 
 
@@ -494,7 +494,7 @@ int walk_stack(int pid, struct user_regs_struct regz){
 		getdata(pid,addr,tmp,16);
 //hexdump(tmp,16);
 		word=strtoul(tmp,0x00,16);
-//printf("word: 0x%016llx bp: 0x%016llx sp: 0x%016llx\n",word,bp,sp);
+//printf("word: 0x%016lx bp: 0x%016lx sp: 0x%016lx\n",word,bp,sp);
 #else
 		word = ptrace(PTRACE_PEEKTEXT, pid, addr, NULL);
 #endif
@@ -513,7 +513,7 @@ int walk_stack(int pid, struct user_regs_struct regz){
 		if(verbose_flag)
 #ifdef __x86_64__
 			zprintf("          [[ Frame %d ]]\nSaved bp at "
-				"0x%16llx --> 0x%16llx\n",i,addr, (int)word);
+				"0x%16lx --> 0x%16lx\n",i,addr, word);
 #else
 			zprintf("          [[ Frame %d ]]\nSaved bp at "
 				"0x%08x --> 0x%08x\n",i,addr, (int)word);
@@ -535,9 +535,9 @@ int walk_stack(int pid, struct user_regs_struct regz){
 
 		if(verbose_flag)
 #ifdef __x86_64__
-			zprintf("Saved ip at 0x%016llx --> 0x%016llx\n"
+			zprintf("Saved ip at 0x%016lx --> 0x%016lx\n"
 			"--------------------------------------\n",
-			 addr + 4, (int)word);
+			 addr + 4, word);
 #else
 			zprintf("Saved ip at 0x%08x --> 0x%08x\n"
 			"--------------------------------------\n",
@@ -595,7 +595,7 @@ int display_possible_fptrs(){
 
 		if ((tmp4->valid)&&(tmp4->function_start||(!strict_mode))) {
 #ifdef __x86_64__
-				printf("0x%016llx --> 0x%016llx %s\n", tmp4->addr, tmp4->dst,
+				printf("0x%016lx --> 0x%016lx %s\n", tmp4->addr, tmp4->dst,
 #else
 				printf("0x%08x --> 0x%08x %s\n", tmp4->addr, tmp4->dst,
 #endif
@@ -836,7 +836,7 @@ int parse_section(int fd, addr_size addr,addr_size end, int size, int perms,char
 	if (((ptr_to_perms(addr)) & 4) == 0) {	// has to be +W 
 		if(verbose_flag){
 #ifdef __x86_64__
-			zprintf(" <!> Section at 0x%016llx-0x%016llx (%s)\n",
+			zprintf(" <!> Section at 0x%016lx-0x%016lx (%s)\n",
 #else
 			zprintf(" <!> Section at 0x%08x-0x%08x (%s)\n",
 #endif
@@ -845,7 +845,7 @@ int parse_section(int fd, addr_size addr,addr_size end, int size, int perms,char
 		return 0;
 	} else {
 #ifdef __x86_64__
-		zprintf(" <*> Section at 0x%016llx-0x%016llx (%s) %s\n",
+		zprintf(" <*> Section at 0x%016lx-0x%016lx (%s) %s\n",
 #else
 		zprintf(" <*> Section at 0x%08x-0x%08x (%s) %s\n",
 #endif
@@ -859,7 +859,7 @@ int parse_section(int fd, addr_size addr,addr_size end, int size, int perms,char
 	if(num <=0){
 		perror(" [!!] pread64");
 #ifdef __x86_64__
-		printf(" [!!] Section at 0x%016llx-0x%016llx (%s) %s\n",
+		printf(" [!!] Section at 0x%016lx-0x%016lx (%s) %s\n",
 #else
 		printf(" [!!] Section at 0x%08x-0x%08x (%s) %s\n",
 #endif
@@ -1048,7 +1048,7 @@ int checkptr(int pid, struct w_to_x_ptr *tmp)
 	if (strlen(line) > 1) {
 			if(debug_flag){
 #ifdef __x86_64__
-				printf("0x%016llx: %s\n", tmp->dst, line);
+				printf("0x%016lx: %s\n", tmp->dst, line);
 #else
 				printf("0x%08x: %s\n", tmp->dst, line);
 #endif
@@ -1162,7 +1162,7 @@ int restorebp(int pid, int dst, struct user_regs_struct regz)
 
 found:
 #ifdef __x86_64__
-	printf(" --> ptr from 0x%016llx ? (delta=%d) --> 0x%016llx\n\n",
+	printf(" --> ptr from 0x%016lx ? (delta=%d) --> 0x%016lx\n\n",
 #else
 	printf(" --> ptr from 0x%08x ? (delta=%d) --> 0x%08x\n\n",
 #endif
@@ -1210,53 +1210,53 @@ int display_regs(char *line, struct user_regs_struct regz)
 
 	// 64b
 	if (strstr(line, "rax")){
-		zprintf(" rax=0x%016llx\n", regz.rax);
+		zprintf(" rax=0x%016lx\n", regz.rax);
 	}
 	if (strstr(line, "rbx")){
-		zprintf(" rbx=0x%016llx\n", regz.rbx);
+		zprintf(" rbx=0x%016lx\n", regz.rbx);
 	}
 	if (strstr(line, "rcx")){
-		zprintf(" rcx=0x%016llx\n", regz.rcx);
+		zprintf(" rcx=0x%016lx\n", regz.rcx);
 	}
 	if (strstr(line, "rdx")){
-		zprintf(" rdx=0x%016llx\n", regz.rdx);
+		zprintf(" rdx=0x%016lx\n", regz.rdx);
 	}
 	if (strstr(line, "rsi")){
-		zprintf(" rsi=0x%016llx\n", regz.rsi);
+		zprintf(" rsi=0x%016lx\n", regz.rsi);
 	}
 	if (strstr(line, "rdi")){
-		zprintf(" rdi=0x%016llx\n", regz.rdi);
+		zprintf(" rdi=0x%016lx\n", regz.rdi);
 	}
 	if (strstr(line, "rsp")){
-		zprintf(" rsp=0x%016llx\n", regz.rsp);
+		zprintf(" rsp=0x%016lx\n", regz.rsp);
 	}
 	if (strstr(line, "rbp")){
-		zprintf(" rbp=0x%016llx\n", regz.rbp);
+		zprintf(" rbp=0x%016lx\n", regz.rbp);
 	}
 
 	if (strstr(line, "r8")){
-		zprintf(" r8=0x%016llx\n", regz.r8);
+		zprintf(" r8=0x%016lx\n", regz.r8);
 	}
 	if (strstr(line, "r9")){
-		zprintf(" r9=0x%016llx\n", regz.r9);
+		zprintf(" r9=0x%016lx\n", regz.r9);
 	}
 	if (strstr(line, "r10")){
-		zprintf(" r10=0x%016llx\n", regz.r10);
+		zprintf(" r10=0x%016lx\n", regz.r10);
 	}
 	if (strstr(line, "r11")){
-		zprintf(" r11=0x%016llx\n", regz.r11);
+		zprintf(" r11=0x%016lx\n", regz.r11);
 	}
 	if (strstr(line, "r12")){
-		zprintf(" r12=0x%016llx\n", regz.r12);
+		zprintf(" r12=0x%016lx\n", regz.r12);
 	}
 	if (strstr(line, "r13")){
-		zprintf(" r13=0x%016llx\n", regz.r13);
+		zprintf(" r13=0x%016lx\n", regz.r13);
 	}
 	if (strstr(line, "r14")){
-		zprintf(" r14=0x%016llx\n", regz.r14);
+		zprintf(" r14=0x%016lx\n", regz.r14);
 	}
 	if (strstr(line, "r15")){
-		zprintf(" r15=0x%016llx\n", regz.r15);
+		zprintf(" r15=0x%016lx\n", regz.r15);
 	}
 
 	// 32b
@@ -1488,7 +1488,7 @@ int mk_fork(pid_t pid){
 	}
 	if(debug_flag){
 #ifdef __x86_64__
-		printf("saved rip=%016llx\n",(addr_size)regz.rip);
+		printf("saved rip=%016lx\n",(addr_size)regz.rip);
 #else
 		printf("saved eip=%08x\n",(addr_size)regz.eip);
 #endif
@@ -1499,9 +1499,11 @@ int mk_fork(pid_t pid){
 	// find a place +X in memory
 	tmp4 = w_to_x_first;
 	target_addr=0;
+
 	while (tmp4->next != 0) {
+
 #ifdef __x86_64__
-		if(tmp4->function_start){
+		if(tmp4->valid){
 #else
 		if((tmp4->function_start)&&(tmp4->valid)){
 #endif
@@ -1520,9 +1522,13 @@ int mk_fork(pid_t pid){
 	}
 
 	// backup content at addr
-	getdata(pid, (addr_size)target_addr, backup_buff, 200);
+	getdata(pid, (addr_size)target_addr, backup_buff, 250);
 	if(debug_flag){
+#ifdef __x86_64__
+		printf(" -->> backed up original bytes at 0x%16lx\n",target_addr);
+#else
 		printf(" -->> backed up original bytes at 0x%08x\n",(int)target_addr);
+#endif		
 		hexdump(backup_buff,20);
 	}
 
@@ -1534,7 +1540,7 @@ int mk_fork(pid_t pid){
 		first_fork=0;
 
 		// replace with sigaction stub
-		write_data(pid,target_addr,sigaction_stub,180);
+		write_data(pid,target_addr,sigaction_stub,sizeof(sigaction_stub));
 
 		// execute it
 		regz_new.ip=(addr_size)target_addr+2;	// kernel bug ! thx @ #busticati :)
@@ -1555,7 +1561,7 @@ int mk_fork(pid_t pid){
 	}
 
 	// replace with fork_stub shellcode
-	write_data(pid,target_addr,fork_stub,10);
+	write_data(pid,target_addr,fork_stub,sizeof(fork_stub));
 
 	// execute fork_stub
 	regz_new.ip=(addr_size)target_addr+2;	// kernel bug ! thx @ #busticati :)
@@ -1627,8 +1633,8 @@ try_to_live:
 	// restore data
 	if(verbose_flag)
 		printf("  ** restoring saved bytes\n");
-	write_data(pid,target_addr,backup_buff,200);
-	write_data(newpid,target_addr,backup_buff,200);
+	write_data(pid,target_addr,backup_buff,250);
+	write_data(newpid,target_addr,backup_buff,250);
 
 	// restore registers
 	if(verbose_flag){
@@ -1672,7 +1678,11 @@ int mk_setpgid(int pid){
 	tmp4 = w_to_x_first;
 	target_addr=0;
 	while (tmp4->next != 0) {
+#ifdef __x86_64__
+		if(tmp4->valid){
+#else
 		if((tmp4->function_start)&&(tmp4->valid)){
+#endif
 		// valid function prologue in X section ? good enough for us :)
 			target_addr= tmp4->dst;
 			break;
@@ -1688,7 +1698,7 @@ int mk_setpgid(int pid){
 	// backup content at addr
 	getdata(pid, target_addr, backup_buff, 20);
 	// replace with setpgid_stub shellcode
-	write_data(pid,target_addr,setpgid_stub,17);
+	write_data(pid,target_addr,setpgid_stub,sizeof(setpgid_stub));
 	// execute setpgid_stub
 	regz_new.ip=target_addr+2;	// kernel bug ! thx @ #busticati :)
 	if(ptrace(PTRACE_SETREGS, pid,NULL, &regz_new)){
@@ -1751,7 +1761,11 @@ int mk_mmap(int pid){
 	tmp4 = w_to_x_first;
 	target_addr=0;
 	while (tmp4->next != 0) {
+#ifdef __x86_64__
+		if(tmp4->valid){
+#else
 		if((tmp4->function_start)&&(tmp4->valid)){
+#endif
 		// valid function prologue in X section ? good enough for us :)
 			target_addr= tmp4->dst;
 			break;
@@ -1765,9 +1779,9 @@ int mk_mmap(int pid){
 	}
 
 	// backup content at addr
-	getdata(pid, target_addr, backup_buff, 40);
+	getdata(pid, target_addr, backup_buff, 60);
 	// replace with mmap_stub shellcode
-	write_data(pid,target_addr,mmap_stub,40);
+	write_data(pid,target_addr,mmap_stub,sizeof(mmap_stub));
 	// execute mmap_stub
 	regz_new.ip=target_addr+2;	// kernel bug ! thx @ #busticati :)
 	if(ptrace(PTRACE_SETREGS, pid,NULL, &regz_new)){
@@ -1793,7 +1807,7 @@ int mk_mmap(int pid){
 	memset(&si, 0, sizeof(siginfo_t));
 	ptrace(PTRACE_SETSIGINFO, pid, NULL, &si);
 	// restore data
-	write_data(pid,target_addr,backup_buff,40);
+	write_data(pid,target_addr,backup_buff,60);
 	// restore registers
 	if(ptrace(PTRACE_SETREGS, pid, NULL, &regz)){
 		perror(" [!!] mk_setpgid(): ptrace (PTRACE_SETREGS 2)");

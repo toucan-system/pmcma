@@ -64,7 +64,7 @@
 
 
 #ifdef __x86_64__
-#define addr_size unsigned long long int
+#define addr_size unsigned long int
 #else
 #define addr_size unsigned int
 #endif
@@ -75,8 +75,8 @@
 #ifdef __x86_64__
 // section
 struct section {
-	unsigned long long int init;	// start address
-	unsigned long long int end;	// end address
+	unsigned long int init;	// start address
+	unsigned long int end;	// end address
 	int size;	// size
 	int perms;	// permissions
 	char name[255];	// name
@@ -89,31 +89,31 @@ struct section {
 
 // pointers to data
 struct w_to_w_ptr {
-	unsigned long long int addr;
-	unsigned long long int dst;
-	unsigned long long int next;
+	unsigned long int addr;
+	unsigned long int dst;
+	unsigned long int next;
 };
 
 // pointers to rodata
 struct w_to_r_ptr {
-	unsigned long long int addr;
-	unsigned long long int dst;
-	unsigned long long int next;
+	unsigned long int addr;
+	unsigned long int dst;
+	unsigned long int next;
 };
 
 // pointers to shared section
 struct w_to_s_ptr {
-	unsigned long long int addr;
-	unsigned long long int dst;
-	unsigned long long int next;
+	unsigned long int addr;
+	unsigned long int dst;
+	unsigned long int next;
 };
 
 
 // function pointers
 struct w_to_x_ptr {
-	unsigned long long int addr;		// address
-	unsigned long long int dst;		// points to this address
-	unsigned long long int next;		// ptr to next struct
+	unsigned long int addr;		// address
+	unsigned long int dst;		// points to this address
+	unsigned long int next;		// ptr to next struct
 	int valid;		// points to a X section, disassembly is correct
 	char backup[3];
 	int trunc;		// can be truncated (id est: mapps to a valid section) ?
@@ -126,9 +126,9 @@ struct w_to_x_ptr {
 };
 
 struct any_ptr {
-	unsigned long long int addr;
-	unsigned long long int dst;
-	unsigned long long int next;
+	unsigned long int addr;
+	unsigned long int dst;
+	unsigned long int next;
 };
 
 #else

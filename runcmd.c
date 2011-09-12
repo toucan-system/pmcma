@@ -179,7 +179,7 @@ keepexec:
 
 			if(strlen(line)>1){
 #ifdef __x86_64__
-				printf("0x%016llx: %s\n",regz.rip,line);
+				printf("0x%016lx: %s\n",regz.rip,line);
 #else
 				printf("0x%08x: %s\n",(unsigned int)regz.eip,line);
 #endif
@@ -214,7 +214,7 @@ keepexec:
 
 		if(strlen(line)>1){
 #ifdef __x86_64__
-			printf("0x%016llx: %s\n",regz.rip,line);
+			printf("0x%016lx: %s\n",regz.rip,line);
 #else
 			printf("%08X: %s\n",(unsigned int)regz.eip,line);
 #endif

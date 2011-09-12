@@ -241,15 +241,15 @@ int analyze(int pid){
 	zprintf("--[ Pid:\n%d\n\n"
 		"--[ Stopped at:\n%s\n\n"
 		"--[ Registers:\n"
-		"rax=0x%016llx\n"
-		"rbx=0x%016llx\n"
-		"rcx=0x%016llx\n"
-		"rdx=0x%016llx\n"
-		"rsi=0x%016llx\n"
-		"rdi=0x%016llx\n"
-		"rsp=0x%016llx\n"
-		"rbp=0x%016llx\n"
-		"rip=0x%016llx\n\n--[ Walking stack:\n"
+		"rax=0x%016lx\n"
+		"rbx=0x%016lx\n"
+		"rcx=0x%016lx\n"
+		"rdx=0x%016lx\n"
+		"rsi=0x%016lx\n"
+		"rdi=0x%016lx\n"
+		"rsp=0x%016lx\n"
+		"rbp=0x%016lx\n"
+		"rip=0x%016lx\n\n--[ Walking stack:\n"
 		,pid,asminst,regz.rax, regz.rbx, 
 		regz.rcx, regz.rdx, regz.rsi,
 		regz.rdi, regz.rsp, regz.rbp,
@@ -351,7 +351,7 @@ int validate_ptrs(int pid){
 			if(debug_flag)
 				printf(" ** Attempting to hijack function pointer "
 #ifdef __x86_64__
-				"at %016llx with new pid=%d\n",tmp4->addr,newpid);
+				"at %016lx with new pid=%d\n",tmp4->addr,newpid);
 #else
 				"at %08x with new pid=%d\n",tmp4->addr,newpid);
 #endif
@@ -366,8 +366,8 @@ int validate_ptrs(int pid){
 				switch(ret){
 					case 0:
 #ifdef __x86_64__
-						zprintf("\n <*> Dereferenced function ptr at 0x%016llx (full control flow hijack)\n",tmp4->addr);
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("\n <*> Dereferenced function ptr at 0x%016lx (full control flow hijack)\n",tmp4->addr);
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #else
 						zprintf("\n <*> Dereferenced function ptr at 0x%08x (full control flow hijack)\n",tmp4->addr);
@@ -380,8 +380,8 @@ int validate_ptrs(int pid){
 						break;
 					case 1:
 #ifdef __x86_64__
-						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%016llx\n     (ret value=0x%016llx is unmapped)\n",tmp4->addr,saved_last_eip);
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%016lx\n     (ret value=0x%016lx is unmapped)\n",tmp4->addr,saved_last_eip);
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 						       (tmp4->addr % 4) ? "(unaligned)" : "",ptr_to_aslr(tmp4->addr),num_samples);
 #else
 						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%08x\n     (ret value=0x%08x is unmapped)\n",tmp4->addr,saved_last_eip);
@@ -404,7 +404,7 @@ int validate_ptrs(int pid){
 						// does this look like a control flow instruction (call/j.*) ?
 						if(((line[0]&0xff) == 0x6a)||(!strncmp(line,"call",4))){
 #ifdef __x86_64__
-							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%016llx\n     (segfault at: 0x%016llx, full control flow hijack)\n",
+							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%016lx\n     (segfault at: 0x%016lx, full control flow hijack)\n",
 #else
 							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%08x\n     (segfault at: 0x%08x, full control flow hijack)\n",
 #endif
@@ -417,7 +417,7 @@ int validate_ptrs(int pid){
 								goto not_good;
 							}
 #ifdef __x86_64__
-							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%016llx\n     (ret value=0x%016llx)\n",
+							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%016lx\n     (ret value=0x%016lx)\n",
 #else
 							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%08x\n     (ret value=0x%08x)\n",
 #endif
@@ -426,7 +426,7 @@ int validate_ptrs(int pid){
 						// display disasm 
 						zprintf("     %s\n",line);
 #ifdef __x86_64__
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #else
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
@@ -481,7 +481,7 @@ int validate_all_w(int pid,int aslr){
 			if(debug_flag)
 				printf(" ** Attempting to hijack function pointer "
 #ifdef __x86_64__
-				"at %016llx with new pid=%d\n",tmp4->addr,newpid);
+				"at %016lx with new pid=%d\n",tmp4->addr,newpid);
 #else
 				"at %08x with new pid=%d\n",tmp4->addr,newpid);
 #endif
@@ -496,8 +496,8 @@ int validate_all_w(int pid,int aslr){
 				switch(ret){
 					case 0:
 #ifdef __x86_64__
-						zprintf("\n <*> Dereferenced function ptr at 0x%016llx (full control flow hijack)\n",tmp4->addr);
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("\n <*> Dereferenced function ptr at 0x%016lx (full control flow hijack)\n",tmp4->addr);
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #else
 						zprintf("\n <*> Dereferenced function ptr at 0x%08x (full control flow hijack)\n",tmp4->addr);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
@@ -508,8 +508,8 @@ int validate_all_w(int pid,int aslr){
 						break;
 					case 1:
 #ifdef __x86_64__
-						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%016llx\n     (ret value=0x%016llx is unmapped)\n",tmp4->addr,saved_last_eip);
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%016lx\n     (ret value=0x%016lx is unmapped)\n",tmp4->addr,saved_last_eip);
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #else
 						zprintf("\n <-> Triggered an indirect control flow bug when writing at 0x%08x\n     (ret value=0x%08x is unmapped)\n",tmp4->addr,saved_last_eip);
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
@@ -531,7 +531,7 @@ int validate_all_w(int pid,int aslr){
 						// does this look like a control flow instruction (call/j.*) ?
 						if(((line[0]&0xff)== 0x6a)||(!strncmp(line,"call",4))){
 #ifdef __x86_64__
-							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%016llx\n     (segfault at: 0x%016llx, full control flow hijack)\n",
+							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%016lx\n     (segfault at: 0x%016lx, full control flow hijack)\n",
 #else
 							zprintf("\n <*> Triggered a segmentation fault when writing at 0x%08x\n     (segfault at: 0x%08x, full control flow hijack)\n",
 #endif
@@ -544,7 +544,7 @@ int validate_all_w(int pid,int aslr){
 								goto not_good;
 							}
 #ifdef __x86_64__
-							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%016llx\n     (ret value=0x%08x)\n",
+							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%016lx\n     (ret value=0x%016lx)\n",
 #else
 							zprintf("\n <-> Triggered an indirect bug without control flow hijack\n     when writing at 0x%08x\n     (ret value=0x%08x)\n",
 #endif
@@ -553,7 +553,7 @@ int validate_all_w(int pid,int aslr){
 						// display disasm 
 						zprintf("     %s\n",line);
 #ifdef __x86_64__
-						zprintf("     0x%016llx --> 0x%016llx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
+						zprintf("     0x%016lx --> 0x%016lx %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #else
 						zprintf("     0x%08x --> 0x%08x %s // repeatability:%d/%d\n", tmp4->addr, tmp4->dst,
 #endif
@@ -643,7 +643,7 @@ int validate_struct_ptrs(int pid){
 						// does this look like a control flow instruction (call/j.*) ?
 						if(((line[0]&0xff)== 0x6a)||(!strncmp(line,"call",4))){
 #ifdef __x86_64__
-						zprintf("\n <*> Dereferenced a function pointer inside a structure when writing at 0x%016llx\n     (ret value=0x%016llx)",tmp4->addr,saved_last_eip);
+						zprintf("\n <*> Dereferenced a function pointer inside a structure when writing at 0x%016lx\n     (ret value=0x%016lx)",tmp4->addr,saved_last_eip);
 #else
 						zprintf("\n <*> Dereferenced a function pointer inside a structure when writing at 0x%08x\n     (ret value=0x%08x)",tmp4->addr,saved_last_eip);
 #endif
@@ -911,7 +911,7 @@ int inst_analysis(char *buff,struct user_regs_struct regs){
 	}
 	if(num_operands==2){
 #ifdef __x86_64__
-		zprintf(" --> (2 operands) reg1:%s=0x%016llx,reg2:%s=0x%016llx\n",
+		zprintf(" --> (2 operands) reg1:%s=0x%016lx,reg2:%s=0x%016lx\n",
 			reg1h,reg1val,reg2h,reg2val);
 #else
 		zprintf(" --> (2 operands) reg1:%s=0x%08x,reg2:%s=0x%08x\n",
@@ -919,7 +919,7 @@ int inst_analysis(char *buff,struct user_regs_struct regs){
 #endif
 	}else if(num_operands==1){
 #ifdef __x86_64__
-		zprintf(" --> (1 operand) reg1:%s=0x%016llx\n",
+		zprintf(" --> (1 operand) reg1:%s=0x%016lx\n",
 			reg1h,reg1val);
 #else
 		zprintf(" --> (1 operand) reg1:%s=0x%08x\n",

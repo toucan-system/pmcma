@@ -121,9 +121,9 @@ void bubbleSort(addr_size numbers[], int array_size){
 */
 int get_syscall(pid_t pid) {
 #ifdef __x86_64__
-    return (int)ptrace(PTRACE_PEEKUSER, pid, 4*ORIG_RAX, 0); 
+    return (int)ptrace(PTRACE_PEEKUSER, pid, 8*ORIG_RAX, NULL); 
 #else
-    return (int)ptrace(PTRACE_PEEKUSER, pid, 4*ORIG_EAX, 0); 
+    return (int)ptrace(PTRACE_PEEKUSER, pid, 4*ORIG_EAX, NULL); 
 #endif
 }
 
@@ -151,8 +151,9 @@ int maxrep(unsigned int i){
 	addr_size prev=0;
 	addr_size mostval=0;
 	unsigned int maxcount=0;
-
+//printf("--------- i: %u\n", i);
 	for(j=i*num_samples;j<(i+1)*num_samples;j++){
+//printf("j: %u \naslrtab[j]: 0x%016lx\nprev: 0x%016lx\ncount: %u\nmaxcount: %u\nmostval: 0x%016lx\n\n",j,aslrtab[j], prev, count, maxcount, mostval);
 		if(aslrtab[j]==prev){
 			count++;
 		}else{
@@ -180,7 +181,7 @@ int maxrep(unsigned int i){
 
 	// display results
 #ifdef __x86_64__
-	zprintf("[section:%03d] %s\n  most probable address:0x%016llx, proba%s%03d/%d\n",
+	zprintf("[section:%03d] %s\n  most probable address:0x%016lx, proba%s%03d/%d\n",
 		i,tmpsection->name,mostval,(maxcount == (unsigned int)num_samples) ? "=" : "<",maxcount,num_samples);
 #else
 	zprintf("[section:%03d] %s\n  most probable address:0x%08x, proba%s%03d/%d\n",
@@ -233,7 +234,7 @@ int still_loading(int s){
 
 /*
 * Run a command passed as an argument,
-* stop when execve + dynamic loading is done
+* stop when execle + dynamic loading is done
 * record mapping to further study ASLR
 */
 int run_aslr_tests(int argc, char *argv, char **envp)
@@ -241,6 +242,7 @@ int run_aslr_tests(int argc, char *argv, char **envp)
 	int status,s;
 	pid_t child;
 	siginfo_t si;
+	int nmaps = 0;
 
 	memset(&si, 0, sizeof(siginfo_t));
 
@@ -263,7 +265,7 @@ int run_aslr_tests(int argc, char *argv, char **envp)
 //		setuid(uid);
 
 		execle((char*)argv, (char*)argv, NULL,envp);
-		perror("execve:");
+		perror("execle:");
 		exit(-1);
 	}
 
@@ -282,7 +284,8 @@ int run_aslr_tests(int argc, char *argv, char **envp)
 		}
 
 		s=get_syscall(child);
-		if(still_loading(s)){
+//printf("syscall: %d\n",s);
+		if(still_loading(s) || s == -1){
 			ptrace(PTRACE_SYSCALL, child, 0, 0);
 //		} else if (s == -1){
 //			usleep(200);
@@ -290,17 +293,19 @@ int run_aslr_tests(int argc, char *argv, char **envp)
 //			goto done_tracing;
 
 		}else{
-			goto done_tracing;
+			break;
 		}
 	}
-done_tracing:
+
 	// read mapping
-	read_maps(child);	
+	nmaps = read_maps(child);
+	if (debug_flag)
+		printf("Number of maps read for aslr test: %d\n", nmaps);
+
 	//kill child
 	kill_pid(child);
 	waitpid(child,&status,0);
 	return 0;
-
 }
 
 
@@ -340,9 +345,10 @@ int aslr_perfs (int pid){
 		int sample=0;
 		struct section *tmpsection = zfirst_aslr;
 		while (tmpsection != 0x00) {
-			if(tmpsection->num==i)
+			if(tmpsection->num==i){
 				aslr_addval(i,sample++,tmpsection->init);
-
+//printf("name: %s i: %u sample: %d init: 0x%016lx\n", tmpsection->name, i, sample, tmpsection->init);
+			}
 			tmpsection = tmpsection->next;
 		}
 		aslr_sumup(i);
