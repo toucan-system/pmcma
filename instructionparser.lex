@@ -66,7 +66,7 @@ any [a-z0-9A-Z\t\ \+\-\*]
 %%
 
 
-{write}{space}*{emptykeyword}\[{any}*\]\,{any}* { // write operation
+{write}{space}*{emptykeyword}*\[{any}*\]\,{any}* { // write operation
 	write_op=1;
 } ; BEGIN(INITIAL);
 
